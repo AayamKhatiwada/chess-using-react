@@ -1,5 +1,20 @@
 .chessboard{
-    width: 601px;
-    height: 601px;
+    display: grid;
+    grid-template-columns: repeat(8,80px);
+    grid-template-rows: repeat(8,80px);
+    width: 640px;
+    height: 640px;
     background-color: rgb(56, 255, 66);
+}
+
+.chessboard .blacktiles{
+    width: 80px;
+    height: 80px;
+    background-color: rgb(209, 97, 97);
+}
+
+.chessboard .whitetiles{
+    width: 80px;
+    height: 80px;
+    background-color: white;
 }
