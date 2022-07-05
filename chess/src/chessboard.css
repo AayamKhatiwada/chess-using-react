@@ -6,3 +6,19 @@
     height: 640px;
     background-color: rgb(56, 255, 66);
 }
+
+.chessboard .blacktiles{
+    width: 80px;
+    height: 80px;
+    background-color: rgb(133, 133, 133);
+    display: grid;
+    place-content: center;
+}
+
+.chessboard .whitetiles{
+    width: 80px;
+    height: 80px;
+    background-color: white;
+    display: grid;
+    place-content: center;
+}
