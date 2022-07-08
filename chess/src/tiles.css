@@ -28,3 +28,10 @@
     background-position: center;
 }
 
+.whitetiles .pieces:hover{
+    cursor: grab;
+}
+
+.blacktiles .pieces:hover{
+    cursor: grab;
+}
