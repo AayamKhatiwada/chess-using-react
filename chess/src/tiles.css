@@ -12,6 +12,19 @@
     background-color: white;
     display: grid;
     place-content: center;
-    
+}
+
+.whitetiles .pieces{
+    width: 80px;
+    height: 80px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.blacktiles .pieces{
+    width: 80px;
+    height: 80px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
