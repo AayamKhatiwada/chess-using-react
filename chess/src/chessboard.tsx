@@ -48,7 +48,7 @@ export default function Chessboard(){
                 }
             })
 
-            board.push(<Tiles number={num} image={image}/>)        
+            board.push(<Tiles key={`${i},${j}`} number={num} image={image}/>)        
         }
     }
 
