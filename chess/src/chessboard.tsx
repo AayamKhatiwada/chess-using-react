@@ -1,3 +1,4 @@
+import React from 'react';
 import './chessboard.css';
 import Tiles from './tiles';
 
@@ -34,6 +35,39 @@ for (let i = 0; i < 8; i++) {
     pieces.push({image: "items/pawn_b.png", horin: i ,vertical: 6})
 }
 
+let current: HTMLElement | null = null;
+
+function grab(e: React.MouseEvent){
+    const element = e.target as HTMLElement
+    if(element.classList.contains('pieces')){
+        console.log(e);
+
+        const x = e.clientX - 40
+        const y = e.clientY - 40
+        element.style.position = "absolute";
+        element.style.left = `${x}px`;
+        element.style.top = `${y}px`;
+
+        current = element;
+    }
+}
+
+function move(e: React.MouseEvent){
+    if(current){
+        const x = e.clientX - 40
+        const y = e.clientY - 40
+        current.style.position = "absolute";
+        current.style.left = `${x}px`;
+        current.style.top = `${y}px`;
+    }
+
+}
+
+function down(e: React.MouseEvent){
+    if (current){
+        current = null;
+    }
+}
 
 export default function Chessboard(){
     let board = [];
@@ -52,5 +86,9 @@ export default function Chessboard(){
         }
     }
 
-    return <div className='chessboard'>{board}</div>
+    return <div className='chessboard' 
+                onMouseMove={e => move(e)} 
+                onMouseDown={e => grab(e)}
+                onMouseUp={e => down(e)}
+                >{board}</div>
 }
