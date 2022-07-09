@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './chessboard.css';
 import Tiles from './tiles';
 
@@ -35,41 +35,67 @@ for (let i = 0; i < 8; i++) {
     pieces.push({image: "items/pawn_b.png", horin: i ,vertical: 6})
 }
 
-let current: HTMLElement | null = null;
-
-function grab(e: React.MouseEvent){
-    const element = e.target as HTMLElement
-    if(element.classList.contains('pieces')){
-        console.log(e);
-
-        const x = e.clientX - 40
-        const y = e.clientY - 40
-        element.style.position = "absolute";
-        element.style.left = `${x}px`;
-        element.style.top = `${y}px`;
-
-        current = element;
-    }
-}
-
-function move(e: React.MouseEvent){
-    if(current){
-        const x = e.clientX - 40
-        const y = e.clientY - 40
-        current.style.position = "absolute";
-        current.style.left = `${x}px`;
-        current.style.top = `${y}px`;
-    }
-
-}
-
-function down(e: React.MouseEvent){
-    if (current){
-        current = null;
-    }
-}
 
 export default function Chessboard(){
+
+    const chessboardRef = useRef<HTMLDivElement>(null);
+
+    let current: HTMLElement | null = null;
+
+    function grab(e: React.MouseEvent){
+        const element = e.target as HTMLElement
+        if(element.classList.contains('pieces')){
+            console.log(e);
+
+            const x = e.clientX - 40
+            const y = e.clientY - 40
+            element.style.position = "absolute";
+            element.style.left = `${x}px`;
+            element.style.top = `${y}px`;
+
+            current = element;
+        }
+    }
+
+    function move(e: React.MouseEvent){
+        const chessboard = chessboardRef.current;
+        if(current && chessboard){
+            const minX = chessboard.offsetLeft - 25;
+            const minY = chessboard.offsetTop -25;
+            const maxX = chessboard.offsetLeft + chessboard.clientWidth -75;
+            const maxY = chessboard.offsetTop + chessboard.clientHeight -75;
+            const x = e.clientX - 40
+            const y = e.clientY - 40
+            current.style.position = "absolute";
+            current.style.left = `${x}px`;
+            current.style.top = `${y}px`;
+
+            if (x < minX){
+                current.style.left = `${minX}px`;
+            }else if (x > maxX){
+                current.style.left = `${maxX}px`;
+            }else{
+                current.style.left = `${x}px`;
+            }
+
+            if (y < minY){
+                current.style.top = `${minY}px`;
+            }else if (y > maxY){
+                current.style.top = `${maxY}px`;
+            }else{
+                current.style.top = `${y}px`;
+            }
+        }
+
+    }
+
+    function down(e: React.MouseEvent){
+        if (current){
+            current = null;
+        }
+    }
+
+
     let board = [];
     for (let i = vertical.length-1; i >=0 ; i--) {
         for (let j = 0; j < horin.length; j++) {
@@ -90,5 +116,6 @@ export default function Chessboard(){
                 onMouseMove={e => move(e)} 
                 onMouseDown={e => grab(e)}
                 onMouseUp={e => down(e)}
+                ref={chessboardRef}
                 >{board}</div>
 }
