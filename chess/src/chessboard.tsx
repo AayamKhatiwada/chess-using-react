@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './chessboard.css';
 import Tiles from './tiles';
 
@@ -11,32 +11,34 @@ interface Piece {
     vertical: number;
 }
 
-const pieces: Piece[] = [];
+const initalState : Piece[] = [];
 
 for (let p = 0; p < 2; p++) {
     const type = p === 0 ? "b" :"w";
     const y = p === 0 ? 7 : 0;
 
-    pieces.push({image: `items/knight_${type}.png`, horin: 1 ,vertical: y})
-    pieces.push({image: `items/knight_${type}.png`, horin: 5 ,vertical: y})
-    pieces.push({image: `items/rook_${type}.png`, horin: 0 ,vertical: y})
-    pieces.push({image: `items/rook_${type}.png`, horin: 7 ,vertical: y})
-    pieces.push({image: `items/bishop_${type}.png`, horin: 2 ,vertical: y})
-    pieces.push({image: `items/bishop_${type}.png`, horin: 6 ,vertical: y})
-    pieces.push({image: `items/king_${type}.png`, horin: 4 ,vertical: y})
-    pieces.push({image: `items/queen_${type}.png`, horin: 3 ,vertical: y})
+    initalState.push({image: `items/knight_${type}.png`, horin: 1 ,vertical: y})
+    initalState.push({image: `items/knight_${type}.png`, horin: 5 ,vertical: y})
+    initalState.push({image: `items/rook_${type}.png`, horin: 0 ,vertical: y})
+    initalState.push({image: `items/rook_${type}.png`, horin: 7 ,vertical: y})
+    initalState.push({image: `items/bishop_${type}.png`, horin: 2 ,vertical: y})
+    initalState.push({image: `items/bishop_${type}.png`, horin: 6 ,vertical: y})
+    initalState.push({image: `items/king_${type}.png`, horin: 4 ,vertical: y})
+    initalState.push({image: `items/queen_${type}.png`, horin: 3 ,vertical: y})
 }
 
 for (let i = 0; i < 8; i++) {
-    pieces.push({image: "items/pawn_w.png", horin: i ,vertical: 1})
+    initalState.push({image: "items/pawn_w.png", horin: i ,vertical: 1})
 }
 
 for (let i = 0; i < 8; i++) {
-    pieces.push({image: "items/pawn_b.png", horin: i ,vertical: 6})
+    initalState.push({image: "items/pawn_b.png", horin: i ,vertical: 6})
 }
 
 
 export default function Chessboard(){
+
+    const [pieces, setPieces] = useState<Piece[]>(initalState);
 
     const chessboardRef = useRef<HTMLDivElement>(null);
 
@@ -91,6 +93,16 @@ export default function Chessboard(){
 
     function down(e: React.MouseEvent){
         if (current){
+            setPieces((value) =>{
+                const pieces = value.map((p)=>{
+                    if (p.horin === 0 && p.vertical ===0){
+                        p.horin = 5;
+                        p.vertical = 5;
+                    }
+                    return p;
+                });
+                return pieces;
+            });
             current = null;
         }
     }
