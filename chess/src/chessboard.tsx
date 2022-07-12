@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './chessboard.css';
 import Tiles from './tiles';
 
@@ -92,7 +92,10 @@ export default function Chessboard(){
     }
 
     function down(e: React.MouseEvent){
-        if (current){
+        const chessboard = chessboardRef.current;
+        if (current && chessboard){
+            const x = (e.clientX - chessboard.offsetLeft) / 100;
+            const y = (e.clientY - chessboard.offsetTop) / 100;
             setPieces((value) =>{
                 const pieces = value.map((p)=>{
                     if (p.horin === 0 && p.vertical ===0){
