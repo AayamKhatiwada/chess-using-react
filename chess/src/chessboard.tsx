@@ -38,6 +38,9 @@ for (let i = 0; i < 8; i++) {
 
 export default function Chessboard(){
 
+    const [xGrid, setGridX] = useState(0);
+    const [yGrid, setGridY] = useState(0);
+
     const [pieces, setPieces] = useState<Piece[]>(initalState);
 
     const chessboardRef = useRef<HTMLDivElement>(null);
@@ -45,9 +48,14 @@ export default function Chessboard(){
     let current: HTMLElement | null = null;
 
     function grab(e: React.MouseEvent){
-        const element = e.target as HTMLElement
-        if(element.classList.contains('pieces')){
-            console.log(e);
+        const element = e.target as HTMLElement;
+        const chessboard = chessboardRef.current;
+        if(element.classList.contains('pieces') && chessboard){
+            const xGrid = Math.floor((e.clientX - chessboard.offsetLeft) / 100);
+            const yGrid = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 800) / 100));
+
+            setGridX(xGrid);
+            setGridY(yGrid);
 
             const x = e.clientX - 40
             const y = e.clientY - 40
@@ -94,11 +102,10 @@ export default function Chessboard(){
     function down(e: React.MouseEvent){
         const chessboard = chessboardRef.current;
         if (current && chessboard){
-            const x = (e.clientX - chessboard.offsetLeft) / 100;
-            const y = (e.clientY - chessboard.offsetTop) / 100;
+
             setPieces((value) =>{
                 const pieces = value.map((p)=>{
-                    if (p.horin === 0 && p.vertical ===0){
+                    if (p.horin === xGrid && p.vertical === yGrid){
                         p.horin = 5;
                         p.vertical = 5;
                     }
