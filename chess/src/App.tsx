@@ -1,9 +1,9 @@
 import './App.css';
-import Chessboard from './chessboard';
+import Chessboard from './components/Chessboard/Chessboard';
 
 function App() {
   return (
-    <div className="App">
+    <div id="app">
       <Chessboard/>
     </div>
   );
